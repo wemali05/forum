@@ -10,23 +10,33 @@ class ThreadsTest extends TestCase
     /**test*/
 
     use RefreshDatabase;
+
+    public function setUp():void
+    {
+        parent::setUp();
+        
+        $this->thread = factory('App\Thread')->create();
+    }
     
     /**test*/
 
     public function testBrowserThreads()
     {
-        $thread = factory('App\Thread')->create();
-
-        $response = $this->get('/threads');
-        $response->assertSee($thread->title);
+        $response = $this->get('/threads')
+            ->assertSee($this->thread->title);
     }
 
     public function testSinglethread()
     {
-        $thread = factory('App\Thread')->create();
+        $response = $this->get('/threads/' . $this->thread->id)
+            ->assertSee($this->thread->title);
+    }
 
-        
-        $response = $this->get('/threads/' . $thread->id);
-        $response->assertSee($thread->title);
+    public function testThreadReplies()
+    {
+        $reply = factory('App\Reply')->create(['thread_id' => $this->thread->id]);
+
+        $response = $this->get('/threads/' . $this->thread->id)
+            ->assertSee($reply->body);
     }
 }
