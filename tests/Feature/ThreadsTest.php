@@ -15,8 +15,18 @@ class ThreadsTest extends TestCase
 
     public function testBrowserThreads()
     {
-        $response = $this->get('/threads');
+        $thread = factory('App\Thread')->create();
 
-        $response->assertStatus(200);
+        $response = $this->get('/threads');
+        $response->assertSee($thread->title);
+    }
+
+    public function testSinglethread()
+    {
+        $thread = factory('App\Thread')->create();
+
+        
+        $response = $this->get('/threads/' . $thread->id);
+        $response->assertSee($thread->title);
     }
 }
