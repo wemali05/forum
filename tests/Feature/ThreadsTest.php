@@ -28,7 +28,7 @@ class ThreadsTest extends TestCase
 
     public function testSinglethread()
     {
-        $response = $this->get('/threads/' . $this->thread->id)
+        $response = $this->get($this->thread->path())
             ->assertSee($this->thread->title);
     }
 
@@ -36,7 +36,7 @@ class ThreadsTest extends TestCase
     {
         $reply = factory('App\Reply')->create(['thread_id' => $this->thread->id]);
 
-        $response = $this->get('/threads/' . $this->thread->id)
+        $response = $this->get($this->thread->path())
             ->assertSee($reply->body);
     }
 }
