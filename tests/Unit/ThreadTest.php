@@ -7,22 +7,32 @@ use Tests\TestCase;
 
 class ThreadTest extends TestCase
 {
-    /**
-     * A basic unit test example.
-     *
-     * @return void
-     */
+    /**test*/
+    protected $thread;
+
+    public function setUp():void
+    {
+        parent::setUp();
+
+        $this->thread =factory('App\Thread')->create();
+    }
     public function testThreadHasReplies()
     {
-        $thread = factory('App\Thread')->create();
-
-        $this->assertInstanceOf('Illuminate\Database\Eloquent\Collection', $thread->replies);
+        $this->assertInstanceOf('Illuminate\Database\Eloquent\Collection', $this->thread->replies);
     }
 
     public function testThreadHasCreator()
     {
-        $thread =  factory('App\Thread')->create();
+        $this->assertInstanceOf('App\User', $this->thread->creator);
+    }
 
-        $this->assertInstanceOf('App\User', $thread->creator);
+    public function testThreadcanAddReply()
+    {
+        $this->thread->addReply([
+            'body' => 'foobar',
+            'user_id' => 1
+        ]);
+
+        $this->assertCount(1, $this->thread->replies);
     }
 }
