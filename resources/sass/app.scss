@@ -6,3 +6,31 @@
 
 // Bootstrap
 @import '~bootstrap/scss/bootstrap';
+
+
+.skeleton {
+    height: 100vh;
+    background-repeat: no-repeat;
+    background-image:
+        /*description*/
+        // linear-gradient(#BBB 50%, transparent 0),
+        // // /*title*/
+        // linear-gradient(#BBB 100%, transparent 0),
+        // linear-gradient(#BBB 20%, transparent 0),
+        // linear-gradient(#BBB 60%, transparent 0),
+        /*card*/
+        linear-gradient(#dddddd 100%, transparent 0);
+    background-size:
+        // 760px 300px,
+        // 760px 150px,
+        100% 100%;
+    background-position:
+
+        // 0px 0px,
+        // 0px 200px,
+        // 0px 400px,
+        // 0px 630px,
+        /* title */
+        0 0;
+    /* card bg */
+}

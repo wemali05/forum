@@ -30,3 +30,17 @@ Vue.component('example-component', require('./components/ExampleComponent.vue').
 const app = new Vue({
     el: '#app',
 });
+
+
+$('.card > *').hide()
+
+function loading() {
+    setInterval(showContent, 2000)
+}
+
+function showContent() {
+    $('.card > *').fadeIn()
+    $('.card').removeClass('skeleton')
+}
+
+loading()
