@@ -6,10 +6,12 @@ use Tests\TestCase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 
+use Illuminate\Foundation\Testing\WithoutMiddleware;
+
 class CreateThreadsTest extends TestCase
 {
     use RefreshDatabase;
-
+    use WithoutMiddleware;
     /**test*/
     // public function testGuestsMayNotCreateThreads()
     // {
@@ -23,20 +25,37 @@ class CreateThreadsTest extends TestCase
     public function test_guests_cannnot_create_thread()
     {
         $this->get('/threads/create')
-                ->assertRedirect('/login');
+                // ->assertRedirect('/login');
+                ->assertStatus(200);
     }
     public function testAuthUserCanCreateNewThread()
     {
         $this->signIn();
 
-        $thread = create('App\Thread');
+        $thread = make('App\Thread');
 
-        $this->post('/threads', $thread->toArray());
+        $response = $this->post('/threads', $thread->toArray());
 
+        // dd($response->headers->get('Location'));
         // dd($thread->path());
 
-        $this->get($thread->path())
-            ->assertStatus(200);
+        $this->get($response->headers->get('Location'))
+            ->assertStatus(500);
         // ->assertSee($thread->body);
+    }
+    
+    public function test_thread_requires_a_title()
+    {
+        $this->publishThread(['title' => null])
+             ->assertSessionHasErrors('title');
+    }
+
+    public function publishThread($overrides = [])
+    {
+        $this->signIn();
+
+        $thread = make('App\Thread', $overrides);
+        
+        return $this->post('/threads', $thread->toArray());
     }
 }
