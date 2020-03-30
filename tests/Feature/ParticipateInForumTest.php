@@ -25,6 +25,9 @@ class ParticipateInForumTest extends TestCase
 
         // when the user adds areply to a thread
         $reply = factory('App\Reply')->make();
+
+        // dd($thread->path(). '/replies');
+        
         $this->post('/threads/'.$thread->id. '/replies', $reply->toArray());
 
         // then the reply should br visible on the page
