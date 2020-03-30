@@ -19,7 +19,13 @@ class ThreadsTest extends TestCase
     }
     
     /**test*/
+    public function test_a_thread_can_make_a_string_path()
+    {
+        $thread = create('App\Thread');
 
+        $this->assertEquals("/threads/{$thread->channel->slug}/{$thread->id}", $thread->path());
+    }
+    
     public function testBrowserThreads()
     {
         $response = $this->get('/threads')
@@ -38,5 +44,12 @@ class ThreadsTest extends TestCase
 
         $response = $this->get($this->thread->path())
             ->assertSee($reply->body);
+    }
+
+    public function test_a_thread_belongs_to_a_channel()
+    {
+        $thread = create('App\Thread');
+
+        $this->assertInstanceOf('App\Channel', $thread->channel);
     }
 }
