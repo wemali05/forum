@@ -45,6 +45,8 @@ class ThreadsController extends Controller
      */
     public function store(Request $request)
     {
+        // dd($request->all());
+        
         $this->validate($request, [
             'title' => 'required',
             'body' => 'required',
@@ -57,6 +59,7 @@ class ThreadsController extends Controller
             'title' => request('title'),
             'body' => request('body')
         ]);
+
 
         return  redirect($thread->path());
     }
