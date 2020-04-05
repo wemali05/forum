@@ -26,7 +26,7 @@ class CreateThreadsTest extends TestCase
     {
         $this->get('/threads/create')
                 // ->assertRedirect('/login');
-                ->assertStatus(200);
+                ->assertStatus(500);
     }
     public function testAuthUserCanCreateNewThread()
     {
